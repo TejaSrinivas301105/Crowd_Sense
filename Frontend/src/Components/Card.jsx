@@ -14,7 +14,7 @@ const Card = () => {
     e.preventDefault();
     try {
       setSeleted(null);
-      const res = await axios.get(`https://bus-service-system.onrender.com/getBuses/${from}/${to}`);
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/getBuses/${from}/${to}`);
       if (res.data && res.data.buses && res.data.buses.length > 0) {
         setBuses(res.data.buses);
       } else {

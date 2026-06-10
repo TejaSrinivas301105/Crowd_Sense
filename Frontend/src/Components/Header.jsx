@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { BusFront, CircleUserRound, X, Menu } from 'lucide-react' // changed Bus → BusFront for a modern look
+import { BusFront, CircleUserRound, X, Menu } from 'lucide-react'
+import { useNavigate } from 'react-router'
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const navigate = useNavigate()
 
   return (
     <header className="w-full bg-gradient-to-r from-blue-900 via-blue-800 to-amber-600 shadow-lg backdrop-blur-md fixed top-0 left-0 z-50">
@@ -24,7 +26,7 @@ const Header = () => {
           {["Home", "Routes", "About Us", "Queries"].map((item, i) => (
             <a
               key={i}
-              href={`/${item.replace(" ", "")}`}
+              href={`/${item === 'About Us' ? 'about' : item.replace(" ", "")}`}
               className="relative group transition-all duration-300"
             >
               <span className="group-hover:text-amber-400">{item}</span>
@@ -35,7 +37,7 @@ const Header = () => {
 
         {/* Icons (User + Menu) */}
         <div className="flex items-center gap-3">
-          <button className="bg-gradient-to-r from-amber-400 to-yellow-500 p-2 rounded-full hover:scale-110 hover:shadow-lg transition-all duration-300">
+          <button onClick={() => navigate('/login')} className="bg-gradient-to-r from-amber-400 to-yellow-500 p-2 rounded-full hover:scale-110 hover:shadow-lg transition-all duration-300">
             <CircleUserRound className="w-6 h-6 text-black" />
           </button>
 
@@ -61,7 +63,7 @@ const Header = () => {
       >
         <a href="/Home" className="block py-2 hover:text-amber-400 transition-all duration-300">Home</a>
         <a href="/Routes" className="block py-2 hover:text-amber-400 transition-all duration-300">Routes</a>
-        <a href="#" className="block py-2 hover:text-amber-400 transition-all duration-300">About Us</a>
+        <a href="/about" className="block py-2 hover:text-amber-400 transition-all duration-300">About Us</a>
         <a href="/Queries" className="block py-2 hover:text-amber-400 transition-all duration-300">Queries</a>
       </div>
     </header>

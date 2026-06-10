@@ -102,6 +102,12 @@ export async function postesp32(req,res){
     }
 }
 
+//Bus Location
+export async function post_loca(req,res) {
+    res.status(501).json({ message: 'Not implemented yet' });
+}
+
+
 
 
 

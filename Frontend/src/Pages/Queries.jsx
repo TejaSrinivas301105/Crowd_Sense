@@ -22,7 +22,7 @@ const Queries = () => {
     }
 
     try {
-      await axios.post('https://ticketsupportsystem-rmo0.onrender.com/get_Tickets', {
+      await axios.post(`${import.meta.env.VITE_TICKET_API_URL}/get_Tickets`, {
         Name, email, subject, priority, category, statas, description
       });
 

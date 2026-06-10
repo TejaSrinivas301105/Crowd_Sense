@@ -11,6 +11,7 @@ const BusTimeSchema = new mongoose.Schema({
         Esp32id: { type: Number, required: true }
     },
     personCount: { type: Number, required: true }
+
 },{ versionKey: false })
 
 const BusTimeSeries = mongoose.model("BusTimeSeries",BusTimeSchema);

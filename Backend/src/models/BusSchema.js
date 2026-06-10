@@ -11,7 +11,7 @@ const BusSchema = new mongoose.Schema({
     },
     ToLocation:{
         type:String,
-        requied:true
+        required:true
     },
     Esp32id:{
         type:Number,
