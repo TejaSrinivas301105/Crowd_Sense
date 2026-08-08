@@ -1,5 +1,6 @@
 import BusDetails from "../models/BusSchema.js";
 import BusTimeSeries from "../models/BusTimeSeries.js";
+import BusLocation from "../models/BusLocation.js";
 
 export async function getbyFromTo(req,res){
     try{
@@ -102,9 +103,52 @@ export async function postesp32(req,res){
     }
 }
 
-//Bus Location
-export async function post_loca(req,res) {
-    res.status(501).json({ message: 'Not implemented yet' });
+// POST — ESP32 sends GPS coords
+export async function post_loca(req, res) {
+    try {
+        const { Esp32id, latitude, longitude, speed } = req.body;
+
+        if (!Esp32id || latitude == undefined || longitude == undefined) {
+            return res.status(400).json({ message: 'Esp32id, latitude and longitude are required' });
+        }
+
+        const bus = await BusDetails.findOne({ Esp32id });
+        if (!bus) return res.status(404).json({ message: 'No bus found for this Esp32id' });
+
+        const location = await BusLocation.findOneAndUpdate(
+            { Esp32id },
+            {
+                $set: {
+                    BusNumber: bus.BusNumber,
+                    Esp32id,
+                    latitude,
+                    longitude,
+                    speed: speed || 0,
+                    updatedAt: new Date()
+                }
+            },
+            { upsert: true, new: true }
+        );
+
+        res.status(200).json({ message: 'Location updated', data: location });
+        console.log(`GPS — Bus: ${bus.BusNumber} | Lat: ${latitude} | Lon: ${longitude} | Speed: ${speed || 0} km/h`);
+    } catch (e) {
+        console.log('Error saving bus location', e);
+        res.status(500).json({ message: 'Error saving location' });
+    }
+}
+
+// GET — frontend fetches live location by bus number
+export async function get_loca(req, res) {
+    try {
+        const { busnumber } = req.params;
+        const location = await BusLocation.findOne({ BusNumber: busnumber });
+        if (!location) return res.status(404).json({ message: 'No location data found for this bus' });
+        res.json(location);
+    } catch (e) {
+        console.log('Error fetching bus location', e);
+        res.status(500).json({ message: 'Error fetching location' });
+    }
 }
 
 

@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import BusTracker from "./Distance_btw_buses.jsx";
 
 const REFRESH_INTERVAL = 10000; // 10 seconds
 
@@ -142,6 +143,12 @@ const Detail = ({ selectBusNumber }) => {
           Last updated: {lastUpdated.toLocaleTimeString()} · refreshes every 10s
         </p>
       )}
+
+      {/* Bus Tracker — distance, ETA, speed */}
+      <div className="mt-2 border-t border-white/10 pt-4">
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">📍 Your Distance to Bus</p>
+        <BusTracker busNumber={busDetail.BusNumber} />
+      </div>
     </div>
   );
 };
